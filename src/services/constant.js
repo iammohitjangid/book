@@ -1,0 +1,16 @@
+export const BOOKS = "/books";
+export const ADD_BOOK = "/books/add";
+export const EDIT_BOOK = "/books/edit";
+export const DELETE_BOOK = "/books/delete";
+export const CATEGORIES = "/categories";
+export const ADD_CATEGORY = "/categories/add";
+export const EDIT_CATEGORY = "/categories/edit";
+export const DELETE_CATEGORY = "/categories/delete";
+export const AUTHORS = "/authors";
+export const ADD_AUTHOR = "/authors/add";
+export const EDIT_AUTHOR = "/authors/edit";
+export const DELETE_AUTHOR = "/authors/delete";
+export const USERS = "/users";
+export const ADD_USER = "/users/add";
+export const EDIT_USER = "/users/edit";
+export const DELETE_USER = "/users/delete";
