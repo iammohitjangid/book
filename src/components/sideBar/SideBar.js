@@ -1,6 +1,6 @@
-import { Drawer } from 'antd';
-import React, { useState } from 'react';
-import Items from '../navigation/navigationItems/Items';
+import { Drawer } from "antd";
+import React, { useState } from "react";
+import { Items } from "../navigation/navigationItems/Items";
 
 const SideBar = () => {
   const [showDrawer, setShowDrawer] = useState(false);

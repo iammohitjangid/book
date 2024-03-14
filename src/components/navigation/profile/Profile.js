@@ -1,20 +1,42 @@
-import React from 'react';
-import NavigationItem from '../navigationItems/navigationItem/NavigationItem';
-const Profile = (props) => {
+import { Button } from "antd";
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import API from "../../../services/apiAxios";
+const Profile = () => {
+  const [username, setUserName] = useState("");
+
+  const onFinish = async (values) => {
+    console.log(values);
+    try {
+      const response = await API.get("/api/v1/auth");
+      console.log(response);
+    } catch (error) {
+      message.destroy();
+      message.error(error?.response?.data?.message);
+    }
+  };
+
+  useEffect(() => {
+    onFinish();
+  }, []);
+
+  const navigate = useNavigate();
   return (
     <div>
-      <NavigationItem
-        link="/login"
-        className="text-sm font-semibold leading-6 text-green-100"
+      <span className="mt-10 text-center text-xl font-bold leading-2 tracking-tight text-white mr-3">
+        Hi {username},
+      </span>
+      <Button
+        onClick={() => {
+          Cookies.remove("authToken");
+          Cookies.remove("role");
+          navigate("/auth/login", { replace: true });
+        }}
+        type="default"
       >
-        Log in
-      </NavigationItem>
-      <NavigationItem
-        link="/sign-up"
-        className="text-sm font-semibold leading-6 text-green-100 margin-100"
-      >
-        Sign Up
-      </NavigationItem>
+        Logout
+      </Button>
     </div>
   );
 };

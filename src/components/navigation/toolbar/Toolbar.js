@@ -1,9 +1,9 @@
-import Logo from '../../logo/Logo';
-import Sidebar from '../../sideBar/SideBar';
+import Logo from "../../logo/Logo";
+import Sidebar from "../../sideBar/SideBar";
+import { Items, UserItems } from "../navigationItems/Items";
 
-import Items from '../navigationItems/Items';
-import Profile from '../profile/Profile';
-const ToolBar = () => {
+import Profile from "../profile/Profile";
+const ToolBar = ({ admin }) => {
   return (
     <div className="min-h-full">
       <Sidebar />
@@ -12,7 +12,11 @@ const ToolBar = () => {
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
               <Logo />
-              <Items hideOnMobile={true} />
+              {admin ? (
+                <Items hideOnMobile={true} />
+              ) : (
+                <UserItems hideOnMobile={true} />
+              )}
             </div>
             <div className="hidden lg:flex lg:flex-1 lg:justify-end">
               <Profile />

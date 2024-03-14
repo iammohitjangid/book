@@ -1,5 +1,6 @@
-import BookCard from '../../components/bookCard/BookCard';
-import Hero from '../../components/hero/Hero';
+import { ForEach } from "../../components/ForEach";
+import BookCard from "../../components/bookCard/BookCard";
+import Hero from "../../components/hero/Hero";
 
 const Home = () => {
   return (
@@ -12,25 +13,15 @@ const Home = () => {
       <div>
         <p className="text-center p-8	"></p>
         <div className="flex flex-wrap	">
-          <BookCard
-            title="The Ecf Collection"
-            price="1"
-            imageSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg/1280px-Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg"
-          />
-          <BookCard
-            title="The Ecf Collection"
-            price="1"
-            imageSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg/1280px-Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg"
-          />
-          <BookCard
-            title="The Ecf Collection"
-            price="1"
-            imageSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg/1280px-Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg"
-          />
-          <BookCard
-            title="The Ecf Collection"
-            price="1"
-            imageSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg/1280px-Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg"
+          <ForEach
+            of={[]}
+            render={(item,index) => (
+              <BookCard
+                title="The Ecf Collection"
+                price="1"
+                imageSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg/1280px-Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg"
+              />
+            )}
           />
         </div>
       </div>

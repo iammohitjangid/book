@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 const Layout = () => {
   return (
     <>
-      <ToolBar admin={true} />
+      <ToolBar admin={false} />
       <Fragment>
         <Outlet />
       </Fragment>
