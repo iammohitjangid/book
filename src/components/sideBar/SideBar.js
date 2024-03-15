@@ -1,8 +1,6 @@
-import { Drawer } from "antd";
-import React, { useState } from "react";
-import { Items } from "../navigation/navigationItems/Items";
-
-const SideBar = () => {
+import { Drawer } from 'antd';
+import React, { useState } from 'react';
+const SideBar = ({ side, children }) => {
   const [showDrawer, setShowDrawer] = useState(false);
 
   const toggleDrawer = () => {
@@ -11,19 +9,18 @@ const SideBar = () => {
 
   return (
     <div>
-      {/* Mobile Sidebar Toggle Button */}
       <button
         onClick={toggleDrawer}
-        className="lg:hidden absolute top-3 right-5 bg-blue-500 text-white rounded-full p-2 shadow-md"
+        className={`sm:hidden absolute top-4 ${side}-5 bg-600 text-white p-2 shadow-md ring-offset-white`}
       >
         <svg
-          className="h-6 w-6"
-          fill="none"
+          className="h-5 w-6"
+          fill="white"
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth="2"
+          strokeWidth="3"
           viewBox="0 0 24 24"
-          stroke="currentColor"
+          stroke="white"
         >
           <path d="M4 6h16M4 12h16m-7 6h7"></path>
         </svg>
@@ -32,12 +29,11 @@ const SideBar = () => {
       <Drawer
         closable={false}
         visible={showDrawer}
-        placement="left"
+        placement={side}
         onClose={toggleDrawer}
+        width="45%"
       >
-        <div className="p-4">
-          <Items hideOnMobile={false} />
-        </div>
+        {children}
       </Drawer>
     </div>
   );
