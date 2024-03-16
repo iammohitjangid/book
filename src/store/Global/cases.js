@@ -1,5 +1,3 @@
-import { loadingState } from './types';
-
 function pending(state) {
   state.loading = true;
 }

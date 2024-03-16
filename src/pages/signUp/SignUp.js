@@ -1,59 +1,67 @@
-import { useState } from "react";
+import { Button, Card, Form, Input, Typography, message } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { Card, Form, Input, Button, Typography, message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
+import API from '../../services/apiAxios';
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [error, setError] = useState(null);
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log(values);
-    // async (data) => {
-    //   console.log(data);
-    //   Cookies.set("authToken", data?.data?.data?.accessToken);
-    //   Cookies.set("role", data?.data?.data?.role);
-    //   const userData = await api.get("/user/getUser");
-    //   const userName =
-    //     userData?.data?.data?.firstName + " " + userData?.data?.data?.lastName;
-    //   const avatar = userData?.data?.data?.profilePicture;
-    //   Cookies.set("userName", userName);
-    //   Cookies.set("userProfile", avatar);
-    //   // handle successful login, e.g. save token, navigate to another page
-    //   navigate("/", { replace: true });
-    // };
+    try {
+      const response = await API.post('/api/v1/auth/create-user', {
+        ...values,
+        role_id: '65f0909b9c21d10bc0b2089d',
+      });
+      Cookies.set('authToken', response?.data?.data);
+      Cookies.set('role', 'user');
+      message.destroy();
+      message.success(response?.data?.message);
+      navigate('/', { replace: true });
+    } catch (error) {
+      message.destroy();
+      message.error(error?.response?.data?.message);
+    }
   };
 
   return (
-    <Card className=" border-0 w-[30rem] md:shadow-md ">
-      <h1 className="my-10 text-center text-4xl font-extrabold leading-10 tracking-tight text-indigo-600">
-        Welcome to Book Emporium
-      </h1>
+    <Card className="border-0 w-full md:w-[20rem] md:shadow-md mx-auto">
       <Card.Meta
-        title={<Typography.Title level={3}>Sign In</Typography.Title>}
+        title={<Typography.Title level={3}>Sign Up</Typography.Title>}
         className=" mb-3"
       />
-
       <Form form={form} onFinish={onFinish} layout="vertical">
         <Form.Item
-          label="Username"
-          name="identifier"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          label="Name"
+          name="name"
+          rules={[{ required: true, message: 'Please input your name!' }]}
+        >
+          <Input size="large" />
+        </Form.Item>
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your email!',
+              type: 'email',
+            },
+          ]}
         >
           <Input size="large" />
         </Form.Item>
         <Form.Item
           label="Password"
           name="password"
+          rules={[{ required: true, message: 'Please input your password!' }]}
           extra={
-            <Link to="/auth/forgot-password" className="p-2">
-              Forgot Password
+            <Link to="/auth/login" className="p-2">
+              Already have an account? Login.
             </Link>
           }
-          rules={[{ required: true, message: "Please input your password!" }]}
         >
           <Input.Password size="large" />
         </Form.Item>

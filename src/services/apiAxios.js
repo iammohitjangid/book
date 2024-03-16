@@ -1,16 +1,16 @@
-import axios from "axios";
-import CONFIG from "../config";
-import { configHeadersType } from "./Type";
+import axios from 'axios';
+import Cookies from 'js-cookie';
 // import { rootStore } from '../store';
 
 const API = axios.create({
-  baseURL: CONFIG.API_URI,
+  baseURL: 'https://book-management.loca.lt',
   timeout: 30000,
   headers: {},
 });
 
 const configHeaders = {
-  "Content-Type": "application/json",
+  'Content-Type': 'application/json',
+  Authorization: 'Bearer ' + Cookies.get('authToken') || '',
 };
 
 API.interceptors.request.use((request) => {

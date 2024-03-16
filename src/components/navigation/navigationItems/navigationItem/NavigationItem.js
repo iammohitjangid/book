@@ -5,7 +5,7 @@ const NavigationItem = ({ link, exact, children }) => {
     <NavLink
       to={link}
       exact={Boolean(exact).toString()}
-      className="text-gray-300 hover:bg-gray-700 focus:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+      className="text-gray-300 hover:bg-gray-700 focus:bg-gray-700 hover:text-white rounded-md px-3 py-2 my-5 text-sm font-medium"
     >
       {children}
     </NavLink>
