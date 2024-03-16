@@ -4,14 +4,17 @@ import { SettingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Avatar, Card } from 'antd';
 const { Meta } = Card;
 
-const BookCard = ({ coverImage, title, description, price }) => {
+const BookCard = ({ order }) => {
+  const { name, image, title, description, price } = order;
   return (
-    <div className="m-9">
+    <div className="m-9 h-full">
       <Card
         style={{
           width: 300,
         }}
-        cover={<img alt="example" src={coverImage} />}
+        cover={
+          <img className="max-h-52	object-contain	" alt="example" src={image} />
+        }
         actions={[<SettingOutlined key="setting" />, <ShoppingCartOutlined />]}
       >
         <Meta
@@ -19,6 +22,7 @@ const BookCard = ({ coverImage, title, description, price }) => {
             <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />
           }
           title={title}
+          name={name}
           description={description}
         />
         <div className="flex justify-center items-center mt-4">
