@@ -1,7 +1,7 @@
 // BookCard.js
 import React from 'react';
 import { SettingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, InputNumber } from 'antd';
 const { Meta } = Card;
 
 const BookCard = ({ order }) => {
@@ -15,7 +15,9 @@ const BookCard = ({ order }) => {
         cover={
           <img className="max-h-52	object-contain	" alt="example" src={image} />
         }
-        actions={[<SettingOutlined key="setting" />, <ShoppingCartOutlined />]}
+        actions={[
+          <InputNumber min={0} defaultValue={0} style={{ width: 100 }} />,
+        ]}
       >
         <Meta
           avatar={

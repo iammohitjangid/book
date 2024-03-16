@@ -1,32 +1,37 @@
+import { message } from 'antd';
+import Hero from '../../../components/hero/Hero';
+import API from '../../../services/apiAxios';
+import React, { useEffect, useState } from 'react';
 import { ForEach } from '../../../components/ForEach';
 import BookCard from '../../../components/bookCard/BookCard';
-import Hero from '../../../components/hero/Hero';
 
-const UserHome = () => {
+const UserBook = () => {
+  const [bookData, setBookData] = useState([]);
+  const fetchOrders = async () => {
+    try {
+      const response = await API.get('api/v1/book');
+      setBookData(response?.data?.data);
+    } catch (error) {
+      message.destroy();
+      message.error(error?.response?.data?.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
   return (
     <div>
-      <Hero
-        heading="Welcome to Book Emporium"
-        description="Explore and buy from our vast collection of books"
-        button="Get Started"
-      />
-      <div>
-        <p className="text-center p-8	"></p>
-        <div className="flex flex-wrap	">
-          <ForEach
-            of={[]}
-            render={(item, index) => (
-              <BookCard
-                title="The Ecf Collection"
-                price="1"
-                imageSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg/1280px-Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg"
-              />
-            )}
-          />
-        </div>
+      <Hero heading="Books" description="Check out new Books" />
+      <div className="flex flex-row flex-wrap justify-center 	p-8">
+        <ForEach
+          of={bookData}
+          render={(book, index) => <BookCard key={index} order={book} />}
+        />
       </div>
     </div>
   );
 };
 
-export default UserHome;
+export default UserBook;
