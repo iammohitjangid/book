@@ -8,10 +8,16 @@ import { Avatar, Button, Card, message } from "antd";
 import Cookies from "js-cookie";
 import React from "react";
 import API from "../../services/apiAxios";
+import { useNavigate } from "react-router-dom";
+import { getCart } from "../../store/Global/action";
+import { useDispatch } from "react-redux";
+
 const { Meta } = Card;
 
 const BookCard = ({ order, onAddToCart, cart, setQuantity }) => {
   const { name, image, title, description, price, _id } = order;
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
 
   const handleDelete = async () => {
     try {

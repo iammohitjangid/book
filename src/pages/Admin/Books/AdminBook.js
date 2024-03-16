@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button, Flex, message } from "antd";
 import Hero from "../../../components/hero/Hero";
 import API from "../../../services/apiAxios";
 import React, { useEffect, useState } from "react";
@@ -12,7 +12,6 @@ const AdminBook = () => {
   const [openAddBookModal, setOpenAddBookModal] = useState(false);
   const [categories, setCategories] = useState([]);
   const [authors, setAuthors] = useState([]);
-
 
   const fetchBooks = async () => {
     try {
@@ -60,16 +59,16 @@ const AdminBook = () => {
   return (
     <div>
       <Hero heading="Books" description="Check out new Books" />
-      <div className="flex flex-row flex-wrap justify-center p-8">
+      <Flex justify="flex-end" className="mt-4 mr-4">
         <Button
           type="primary"
           icon={<PlusCircleOutlined />}
-          size="large"
           onClick={handleOpenModal}
         >
           Add New Book
         </Button>
-
+      </Flex>
+      <div className="flex flex-row flex-wrap justify-center p-8">
         <ForEach
           of={bookData}
           render={(book, index) => <BookCard key={index} order={book} />}
