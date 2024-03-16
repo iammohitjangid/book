@@ -1,7 +1,6 @@
 // BookCard.js
 import {
   DeleteOutlined,
-  ExportOutlined,
   MinusCircleOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons";
@@ -13,13 +12,10 @@ const { Meta } = Card;
 
 const BookCard = ({ order, onAddToCart, cart, setQuantity }) => {
   const { name, image, title, description, price, _id } = order;
-  console.log('order',order)
 
   const handleDelete = async () => {
-    console.log('_id',_id)
     try {
       const response = await API.delete(`/api/v1/book/${_id}`);
-      console.log(response);
       dispatch(getCart());
       message.destroy();
       message.success("Order has been placed successfully");
@@ -30,7 +26,7 @@ const BookCard = ({ order, onAddToCart, cart, setQuantity }) => {
       message.error(error?.response?.data?.message);
     }
   };
-  
+
   return (
     <Card
       style={{
@@ -41,31 +37,35 @@ const BookCard = ({ order, onAddToCart, cart, setQuantity }) => {
       cover={
         <img className="max-h-52	object-contain	" alt="example" src={image} />
       }
-      actions={ Cookies.get('role') === 'admin' ? null :[
-        <Button
-          onClick={() => {
-            setQuantity({
-              book_id: _id,
-              quantity: cart?.quantity ? cart?.quantity - 1 : 0,
-            });
-          }}
-          type="primary"
-          icon={<MinusCircleOutlined />}
-          size={"large"}
-        />,
-        <p>{cart?.book_id === _id ? cart?.quantity || 0 : 0}</p>,
-        <Button
-          onClick={() =>
-            setQuantity({
-              book_id: _id,
-              quantity: cart?.quantity ? cart?.quantity + 1 : 1,
-            })
-          }
-          type="primary"
-          icon={<PlusCircleOutlined />}
-          size={"large"}
-        />,
-      ]}
+      actions={
+        Cookies.get("role") === "admin"
+          ? null
+          : [
+              <Button
+                onClick={() => {
+                  setQuantity({
+                    book_id: _id,
+                    quantity: cart?.quantity ? cart?.quantity - 1 : 0,
+                  });
+                }}
+                type="primary"
+                icon={<MinusCircleOutlined />}
+                size={"large"}
+              />,
+              <p>{cart?.book_id === _id ? cart?.quantity || 0 : 0}</p>,
+              <Button
+                onClick={() =>
+                  setQuantity({
+                    book_id: _id,
+                    quantity: cart?.quantity ? cart?.quantity + 1 : 1,
+                  })
+                }
+                type="primary"
+                icon={<PlusCircleOutlined />}
+                size={"large"}
+              />,
+            ]
+      }
     >
       <Meta
         avatar={
@@ -79,15 +79,14 @@ const BookCard = ({ order, onAddToCart, cart, setQuantity }) => {
       />
       <div className="flex justify-between items-center mt-4">
         <span className="text-lg font-semibold">Rs: {price}</span>
-        {
-          Cookies.get('role') === 'user' ? null : <Button
-          onClick={handleDelete}
-          type="default"
-          icon={<DeleteOutlined />}
-          size={"large"}
-        />
-        }
-        
+        {Cookies.get("role") === "user" ? null : (
+          <Button
+            onClick={handleDelete}
+            type="default"
+            icon={<DeleteOutlined />}
+            size={"large"}
+          />
+        )}
       </div>
     </Card>
   );

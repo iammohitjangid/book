@@ -9,7 +9,6 @@ const SignUp = () => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
-    console.log(values);
     try {
       const response = await API.post('/api/v1/auth/create-user', {
         ...values,

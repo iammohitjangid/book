@@ -20,7 +20,6 @@ export const Items = ({ hideOnMobile }) => {
 export const UserItems = ({ hideOnMobile }) => {
   const dispatch = useDispatch();
   const { count } = useSelector((state) => state.cart);
-  console.log(count);
   useEffect(() => {
     dispatch(getCart());
   }, []);

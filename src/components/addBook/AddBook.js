@@ -1,57 +1,44 @@
-import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  Upload,
-  message,
-  Modal,
-} from "antd";
+import { Button, Form, Input, message, Modal, Select } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 
 import React, { useEffect, useState } from "react";
 import API from "../../services/apiAxios";
+import { useForm } from "antd/es/form/Form";
 
-const AddBook = ({ open, setOpen }) => {
-  const [categories, setCategories] = useState([]);
-  const [authors, setAuthors] = useState([]);
+const AddBook = ({ open, setOpen, categoryData, authorData }) => {
+  const [form] = useForm();
+  const { Option } = Select;
 
-  console.log("777777777", authors);
-  const fetchAuthors = async () => {
+  const handleFormSubmit = async (values) => {
     try {
-      const response = await API.get("api/v1/author");
-      setAuthors(response?.data?.data?.books);
+      await API.post("api/v1/book", values);
+      message.destroy();
+      message.success("Author Successfully created !");
+      form.resetFields();
+      setOpen(false);
     } catch (error) {
       message.destroy();
-      message.error(error?.response?.data?.message);
+      message.success(error);
     }
   };
-
-  const fetchCategories = async () => {
-    try {
-      const response = await API.get("api/v1/category");
-      setCategories(response?.data?.data?.books);
-    } catch (error) {
-      message.destroy();
-      message.error(error?.response?.data?.message);
-    }
+  const formItemLayout = {
+    labelCol: {
+      xs: {
+        span: 24,
+      },
+      sm: {
+        span: 7,
+      },
+    },
+    wrapperCol: {
+      xs: {
+        span: 24,
+      },
+      sm: {
+        span: 16,
+      },
+    },
   };
-
-  useEffect(() => {
-    fetchAuthors();
-    fetchCategories();
-  }, []);
-
-  const onFinish = (values) => {
-    console.log("Received values:", values);
-    // Here you can handle form submission, e.g., submit to server
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-
   return (
     <Modal
       title="Basic Modal"
@@ -60,74 +47,95 @@ const AddBook = ({ open, setOpen }) => {
       footer={null}
     >
       <Form
-        name="admin_book_form"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        initialValues={{
-          categories: [], // Initial value for categories as an empty array
-        }}
+        {...formItemLayout}
+        form={form}
+        style={{ marginTop: "2rem" }}
+        onFinish={handleFormSubmit}
       >
         <Form.Item
+          name="name"
           label="Book Name"
-          name="bookName"
-          rules={[{ required: true, message: "Please enter book name" }]}
+          rules={[
+            {
+              required: true,
+              message: "Please enter book name",
+            },
+          ]}
         >
           <Input />
         </Form.Item>
-
         <Form.Item
-          label="Description"
-          name="description"
-          rules={[{ required: true, message: "Please enter description" }]}
+          name="image"
+          label="Image URL"
+          rules={[
+            {
+              required: true,
+              message: "Please enter image url",
+            },
+          ]}
         >
-          <Input.TextArea />
+          <Input />
         </Form.Item>
-
         <Form.Item
-          label="Price"
           name="price"
-          rules={[{ required: true, message: "Please enter price" }]}
+          label="Book Price"
+          rules={[
+            {
+              required: true,
+              message: "Please enter image url",
+            },
+          ]}
         >
-          <InputNumber style={{ width: "100%" }} />
+          <Input />
         </Form.Item>
-
         <Form.Item
           label="Categories"
-          name="categories"
-          rules={[{ required: true, message: "Please select categories" }]}
+          name="catergories"
+          rules={[
+            { required: true, message: "Please select at least one category!" },
+          ]}
         >
-          <Select mode="multiple" placeholder="Select categories">
-            <Option value="fiction">Fiction</Option>
-            <Option value="non-fiction">Non-Fiction</Option>
-            <Option value="fantasy">Fantasy</Option>
-            {/* Add more options as needed */}
+          <Select
+            mode="multiple"
+            style={{ width: "100%" }}
+            placeholder="Select or type categories"
+          >
+            {categoryData?.map((cat) => {
+              return <Option value={cat?._id}>{cat?.name}</Option>;
+            })}
           </Select>
         </Form.Item>
 
         <Form.Item
-          label="Author ID"
-          name="authorId"
-          rules={[{ required: true, message: "Please enter author ID" }]}
+          label="Author"
+          name="author_id"
+          rules={[{ required: true, message: "Please select an author!" }]}
         >
-          <Input />
+          <Select placeholder="Select an author">
+            {authorData?.map((cat) => {
+              return <Option value={cat?._id}>{cat?.name}</Option>;
+            })}
+          </Select>
         </Form.Item>
 
         <Form.Item
-          label="Image"
-          name="image"
-          valuePropName="fileList"
-          getValueFromEvent={(e) => {
-            if (Array.isArray(e)) return e;
-            return e && e.fileList;
-          }}
-          extra="Upload book image"
+          name="description"
+          label="Description"
+          rules={[
+            {
+              required: true,
+              message: "Please enter description",
+            },
+          ]}
         >
-          <Upload name="logo" listType="picture">
-            <Button icon={<PlusCircleOutlined />} />
-          </Upload>
+          <Input.TextArea />
         </Form.Item>
-
-        <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+        <Form.Item
+          wrapperCol={{
+            offset: 18,
+            span: 16,
+          }}
+        >
           <Button type="primary" htmlType="submit">
             Submit
           </Button>

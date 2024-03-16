@@ -1,11 +1,10 @@
-import React from 'react';
-import { SettingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Avatar, Card } from 'antd';
+import React from "react";
+import { SettingOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { Avatar, Card } from "antd";
 const { Meta } = Card;
 
 const CategoryCard = ({ category }) => {
   const { name, image } = category;
-  console.log('7>>>>>>>', name);
 
   return (
     <div className="m-9 flex h-full">

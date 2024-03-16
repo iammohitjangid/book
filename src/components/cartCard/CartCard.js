@@ -16,7 +16,6 @@ const CartCard = () => {
   const onFinish = async () => {
     try {
       const response = await API.post("/api/v1/order/check-out");
-      console.log(response);
       dispatch(getCart());
       message.destroy();
       message.success("Order has been placed successfully");

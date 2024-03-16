@@ -31,7 +31,6 @@ const UserHome = () => {
   const addToCart = async (values) => {
     try {
       const response = await API.post("api/v1/cart/add-to-cart", values);
-      console.log(response);
       dispatch(getCart());
       message.destroy();
       message.success("Added to cart successfully!");
@@ -65,7 +64,6 @@ const UserHome = () => {
                     addToCart(cart);
                   }}
                   setQuantity={(data) => {
-                    console.log(data);
                     if (book?._id === data?.book_id) {
                       setCart(data);
                     }

@@ -10,6 +10,9 @@ import AddBook from "../../../components/addBook/AddBook";
 const AdminBook = () => {
   const [bookData, setBookData] = useState([]);
   const [openAddBookModal, setOpenAddBookModal] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [authors, setAuthors] = useState([]);
+
 
   const fetchBooks = async () => {
     try {
@@ -20,18 +23,39 @@ const AdminBook = () => {
       message.error(error?.response?.data?.message);
     }
   };
+  const fetchAuthors = async () => {
+    try {
+      const response = await API.get("api/v1/author");
+      setAuthors(response?.data?.data?.createdAuthor);
+    } catch (error) {
+      message.destroy();
+      message.error(error?.response?.data?.message);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await API.get("api/v1/category");
+      setCategories(response?.data?.data?.getCategory);
+    } catch (error) {
+      message.destroy();
+      message.error(error?.response?.data?.message);
+    }
+  };
 
   useEffect(() => {
+    fetchAuthors();
+    fetchCategories();
     fetchBooks();
   }, []);
 
   const handleOpenModal = () => {
-    setOpenAddBookModal(true); 
-  }
+    setOpenAddBookModal(true);
+  };
 
   const handleCloseModal = () => {
-    setOpenAddBookModal(false); 
-  }
+    setOpenAddBookModal(false);
+  };
 
   return (
     <div>
@@ -51,7 +75,12 @@ const AdminBook = () => {
           render={(book, index) => <BookCard key={index} order={book} />}
         />
       </div>
-      <AddBook open={openAddBookModal} setOpen={setOpenAddBookModal} />
+      <AddBook
+        open={openAddBookModal}
+        setOpen={setOpenAddBookModal}
+        categoryData={categories}
+        authorData={authors}
+      />
     </div>
   );
 };
