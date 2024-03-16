@@ -1,5 +1,8 @@
-import React from 'react';
-import NavigationItem from './navigationItem/NavigationItem';
+import React, { useEffect } from "react";
+import NavigationItem from "./navigationItem/NavigationItem";
+import { Badge } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { getCart } from "../../../store/Global/action";
 export const Items = ({ hideOnMobile }) => {
   return (
     <div className="flex sm:flex-row flex-col items-baseline space-x-4">
@@ -15,6 +18,12 @@ export const Items = ({ hideOnMobile }) => {
 };
 
 export const UserItems = ({ hideOnMobile }) => {
+  const dispatch = useDispatch();
+  const { count } = useSelector((state) => state.cart);
+  console.log(count);
+  useEffect(() => {
+    dispatch(getCart());
+  }, []);
   return (
     <div className="flex sm:flex-row flex-col items-baseline space-x-4">
       <NavigationItem exact link="/user">
@@ -23,9 +32,11 @@ export const UserItems = ({ hideOnMobile }) => {
       <NavigationItem exact link="/user/book">
         Books
       </NavigationItem>
-      <NavigationItem exact link="/user/cart">
-        Cart
-      </NavigationItem>
+      <Badge count={count}>
+        <NavigationItem exact link="/user/cart">
+          Cart
+        </NavigationItem>
+      </Badge>
     </div>
   );
 };
