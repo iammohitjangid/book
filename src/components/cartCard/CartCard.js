@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { ForEach } from "../ForEach/index";
 import API from "../../services/apiAxios";
 import { getCart } from "../../store/Global/action";
+import { useNavigate } from "react-router";
 const { Meta } = Card;
 
 const CartCard = () => {
+  const navigate = useNavigate();
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const onFinish = async () => {
