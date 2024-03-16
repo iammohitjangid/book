@@ -20,6 +20,7 @@ const CartCard = () => {
       message.success("Order has been placed successfully");
       navigate("/", { replace: true });
     } catch (error) {
+      console.log(error, "error");
       message.destroy();
       message.error(error?.response?.data?.message);
     }
