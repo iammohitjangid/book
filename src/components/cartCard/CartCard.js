@@ -19,7 +19,7 @@ const CartCard = () => {
       dispatch(getCart());
       message.destroy();
       message.success("Order has been placed successfully");
-      navigate("/", { replace: true });
+      navigate("/user", { replace: true });
     } catch (error) {
       console.log(error, "error");
       message.destroy();

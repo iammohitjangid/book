@@ -16,7 +16,7 @@ const { Meta } = Card;
 
 const BookCard = ({ order, onAddToCart, cart, setQuantity }) => {
   const { name, image, title, description, price, _id } = order;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleDelete = async () => {
@@ -32,6 +32,19 @@ const BookCard = ({ order, onAddToCart, cart, setQuantity }) => {
       message.error(error?.response?.data?.message);
     }
   };
+  const handleAddToCart = async()=>{
+    try {
+      const response = await API.delete(`/api/v1/book/${_id}`);
+      dispatch(getCart());
+      message.destroy();
+      message.success("Order has been placed successfully");
+      navigate("/admin/book", { replace: true });
+    } catch (error) {
+      console.log(error, "error");
+      message.destroy();
+      message.error(error?.response?.data?.message);
+    }
+  }
 
   return (
     <Card
@@ -93,6 +106,17 @@ const BookCard = ({ order, onAddToCart, cart, setQuantity }) => {
             size={"large"}
           />
         )}
+        {Cookies.get("role") === "user" ? (
+          <Button
+            onClick={onAddToCart}
+            type="primary"
+            // icon={<DeleteOutlined />}
+            size={"large"}
+          >
+            {" "}
+            Add to Cart{" "}
+          </Button>
+        ) : null}
       </div>
     </Card>
   );

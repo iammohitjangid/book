@@ -28,9 +28,9 @@ export const UserItems = ({ hideOnMobile }) => {
       <NavigationItem exact link="/user">
         Home
       </NavigationItem>
-      <NavigationItem exact link="/user/book">
+      {/* <NavigationItem exact link="/user/book">
         Books
-      </NavigationItem>
+      </NavigationItem> */}
       <Badge count={count}>
         <NavigationItem exact link="/user/cart">
           Cart
