@@ -12,7 +12,7 @@ export const Items = ({ hideOnMobile }) => {
       <NavigationItem link="/admin/book">Books</NavigationItem>
       <NavigationItem link="/admin/category">Category</NavigationItem>
       <NavigationItem link="/admin/author">Authors</NavigationItem>
-      <NavigationItem link="/admin/cart">Cart</NavigationItem>
+      {/* <NavigationItem link="/admin/cart">Cart</NavigationItem> */}
     </div>
   );
 };

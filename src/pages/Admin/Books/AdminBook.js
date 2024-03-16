@@ -1,4 +1,4 @@
-import { Button, Flex, message } from "antd";
+import { Button, Flex, Input, message } from "antd";
 import Hero from "../../../components/hero/Hero";
 import API from "../../../services/apiAxios";
 import React, { useEffect, useState } from "react";
@@ -12,16 +12,42 @@ const AdminBook = () => {
   const [openAddBookModal, setOpenAddBookModal] = useState(false);
   const [categories, setCategories] = useState([]);
   const [authors, setAuthors] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [typingTimeout, setTypingTimeout] = useState(null);
+
+  console.log("searchText", searchText);
+
+  // Debounce function
+  const handleSearch = (value) => {
+    setSearchText(value);
+    clearTimeout(typingTimeout);
+    const timeout = setTimeout(() => {
+      fetchBooks(value ? { search: value } : {});
+    }, 500); // Adjust the debounce time as needed
+    setTypingTimeout(timeout);
+  };
+
+  useEffect(() => {
+    fetchAuthors();
+    fetchCategories();
+    fetchBooks(searchText);
+  }, []);
 
   const fetchBooks = async () => {
     try {
-      const response = await API.get("api/v1/book");
+      const query = searchText
+        ? {
+            search: searchText,
+          }
+        : {};
+      const response = await API.get("api/v1/book", { params: query });
       setBookData(response?.data?.data?.books);
     } catch (error) {
       message.destroy();
       message.error(error?.response?.data?.message);
     }
   };
+
   const fetchAuthors = async () => {
     try {
       const response = await API.get("api/v1/author");
@@ -42,24 +68,23 @@ const AdminBook = () => {
     }
   };
 
-  useEffect(() => {
-    fetchAuthors();
-    fetchCategories();
-    fetchBooks();
-  }, []);
-
   const handleOpenModal = () => {
     setOpenAddBookModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenAddBookModal(false);
   };
 
   return (
     <div>
       <Hero heading="Books" description="Check out new Books" />
-      <Flex justify="flex-end" className="mt-4 mr-4">
+
+      <Flex justify="flex-end" className="mt-6  gap-4">
+        <Input
+          type="text"
+          value={searchText}
+          onChange={(e) => handleSearch(e.target.value)}
+          style={{ width: 400 }}
+          placeholder="Search book by name"
+        />
+
         <Button
           type="primary"
           icon={<PlusCircleOutlined />}
