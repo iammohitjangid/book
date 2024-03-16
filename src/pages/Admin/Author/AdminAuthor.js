@@ -10,7 +10,7 @@ const AdminBook = () => {
   const fetchOrders = async () => {
     try {
       const response = await API.get('api/v1/author');
-      setAuthorData(response?.data?.data);
+      setAuthorData(response?.data?.data?.createdAuthor);
     } catch (error) {
       message.destroy();
       message.error(error?.response?.data?.message);

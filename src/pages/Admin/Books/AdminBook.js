@@ -10,7 +10,7 @@ const AdminBook = () => {
   const fetchOrders = async () => {
     try {
       const response = await API.get('api/v1/book');
-      setBookData(response?.data?.data);
+      setBookData(response?.data?.data?.books);
     } catch (error) {
       message.destroy();
       message.error(error?.response?.data?.message);

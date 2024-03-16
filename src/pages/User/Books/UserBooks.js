@@ -10,7 +10,7 @@ const UserBook = () => {
   const fetchOrders = async () => {
     try {
       const response = await API.get('api/v1/book');
-      setBookData(response?.data?.data);
+      setBookData(response?.data?.data?.books);
     } catch (error) {
       message.destroy();
       message.error(error?.response?.data?.message);
@@ -25,6 +25,7 @@ const UserBook = () => {
     <div>
       <Hero heading="Books" description="Check out new Books" />
       <div className="flex flex-row flex-wrap justify-center 	p-8">
+        {console.log(bookData)}
         <ForEach
           of={bookData}
           render={(book, index) => <BookCard key={index} order={book} />}

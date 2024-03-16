@@ -7,11 +7,10 @@ import { ForEach } from '../../../components/ForEach';
 
 const AdminCart = () => {
   const [orderData, setOrderData] = useState([]);
-  console.log('10---->', orderData);
   const fetchOrders = async () => {
     try {
       const response = await API.get('api/v1/order');
-      setOrderData(response?.data?.data);
+      setOrderData(response?.data?.data?.orders);
     } catch (error) {
       message.destroy();
       message.error(error?.response?.data?.message);

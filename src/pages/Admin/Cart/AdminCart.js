@@ -3,7 +3,6 @@ import Hero from '../../../components/hero/Hero';
 import API from '../../../services/apiAxios';
 import React, { useEffect, useState } from 'react';
 import { ForEach } from '../../../components/ForEach';
-import BookCard from '../../../components/bookCard/BookCard';
 import CartCard from '../../../components/cartCard/CartCard';
 
 const AdminCart = () => {
@@ -11,7 +10,8 @@ const AdminCart = () => {
   const fetchOrders = async () => {
     try {
       const response = await API.get('api/v1/cart/admin');
-      setCartData(response?.data?.data);
+      setCartData(response?.data?.data?.cartData);
+      console.log(response?.data?.data);
     } catch (error) {
       message.destroy();
       message.error(error?.response?.data?.message);
