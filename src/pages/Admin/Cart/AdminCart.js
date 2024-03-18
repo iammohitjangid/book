@@ -11,7 +11,6 @@ const AdminCart = () => {
     try {
       const response = await API.get('api/v1/cart/admin');
       setCartData(response?.data?.data?.cartData);
-      console.log(response?.data?.data);
     } catch (error) {
       message.destroy();
       message.error(error?.response?.data?.message);

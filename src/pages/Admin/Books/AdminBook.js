@@ -1,15 +1,46 @@
-import { message } from 'antd';
-import Hero from '../../../components/hero/Hero';
-import API from '../../../services/apiAxios';
-import React, { useEffect, useState } from 'react';
-import { ForEach } from '../../../components/ForEach';
-import BookCard from '../../../components/bookCard/BookCard';
+import { Button, Flex, Input, message } from "antd";
+import Hero from "../../../components/hero/Hero";
+import API from "../../../services/apiAxios";
+import React, { useEffect, useState } from "react";
+import { ForEach } from "../../../components/ForEach";
+import BookCard from "../../../components/bookCard/BookCard";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import AddBook from "../../../components/addBook/AddBook";
 
 const AdminBook = () => {
   const [bookData, setBookData] = useState([]);
-  const fetchOrders = async () => {
+  const [openAddBookModal, setOpenAddBookModal] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [authors, setAuthors] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [typingTimeout, setTypingTimeout] = useState(null);
+
+  console.log("searchText", searchText);
+
+  // Debounce function
+  const handleSearch = (value) => {
+    setSearchText(value);
+    clearTimeout(typingTimeout);
+    const timeout = setTimeout(() => {
+      fetchBooks(value ? { search: value } : {});
+    }, 500); // Adjust the debounce time as needed
+    setTypingTimeout(timeout);
+  };
+
+  useEffect(() => {
+    fetchAuthors();
+    fetchCategories();
+    fetchBooks(searchText);
+  }, []);
+
+  const fetchBooks = async () => {
     try {
-      const response = await API.get('api/v1/book');
+      const query = searchText
+        ? {
+            search: searchText,
+          }
+        : {};
+      const response = await API.get("api/v1/book", { params: query });
       setBookData(response?.data?.data?.books);
     } catch (error) {
       message.destroy();
@@ -17,19 +48,63 @@ const AdminBook = () => {
     }
   };
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
+  const fetchAuthors = async () => {
+    try {
+      const response = await API.get("api/v1/author");
+      setAuthors(response?.data?.data?.createdAuthor);
+    } catch (error) {
+      message.destroy();
+      message.error(error?.response?.data?.message);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await API.get("api/v1/category");
+      setCategories(response?.data?.data?.getCategory);
+    } catch (error) {
+      message.destroy();
+      message.error(error?.response?.data?.message);
+    }
+  };
+
+  const handleOpenModal = () => {
+    setOpenAddBookModal(true);
+  };
 
   return (
     <div>
       <Hero heading="Books" description="Check out new Books" />
-      <div className="flex flex-row flex-wrap justify-center 	p-8">
+
+      <Flex justify="flex-end" className="mt-6  gap-4">
+        <Input
+          type="text"
+          value={searchText}
+          onChange={(e) => handleSearch(e.target.value)}
+          style={{ width: 400 }}
+          placeholder="Search book by name"
+        />
+
+        <Button
+          type="primary"
+          icon={<PlusCircleOutlined />}
+          onClick={handleOpenModal}
+        >
+          Add New Book
+        </Button>
+      </Flex>
+      <div className="flex flex-row flex-wrap justify-center p-8">
         <ForEach
           of={bookData}
           render={(book, index) => <BookCard key={index} order={book} />}
         />
       </div>
+      <AddBook
+        open={openAddBookModal}
+        setOpen={setOpenAddBookModal}
+        categoryData={categories}
+        authorData={authors}
+      />
     </div>
   );
 };

@@ -3,7 +3,6 @@ import { Avatar as AntdAvatar } from "antd";
 import ColumnGroup from "antd/es/table/ColumnGroup";
 
 const CustomAvatarComponent = ({ name = "", style, ...rest }) => {
-    console.log({ ...rest })
 
     const getNameInitials = (name, count = 2) => {
         const initials = name

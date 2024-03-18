@@ -11,7 +11,6 @@ const UserCart = () => {
     try {
       const response = await API.get('api/v1/cart/user');
       setUserCartData([response?.data?.data]);
-      console.log(userCartData);
     } catch (error) {
       message.destroy();
       message.error(error?.response?.data?.message);

@@ -26,7 +26,6 @@ const AdminBook = () => {
       setShowModal(!showModal);
       form.resetFields();
     } catch (error) {
-      console.log(error, 'error')
     }
   }
 

@@ -12,7 +12,7 @@ export const Items = ({ hideOnMobile }) => {
       <NavigationItem link="/admin/book">Books</NavigationItem>
       <NavigationItem link="/admin/category">Category</NavigationItem>
       <NavigationItem link="/admin/author">Authors</NavigationItem>
-      <NavigationItem link="/admin/cart">Cart</NavigationItem>
+      {/* <NavigationItem link="/admin/cart">Cart</NavigationItem> */}
     </div>
   );
 };
@@ -20,7 +20,6 @@ export const Items = ({ hideOnMobile }) => {
 export const UserItems = ({ hideOnMobile }) => {
   const dispatch = useDispatch();
   const { count } = useSelector((state) => state.cart);
-  console.log(count);
   useEffect(() => {
     dispatch(getCart());
   }, []);
@@ -29,9 +28,9 @@ export const UserItems = ({ hideOnMobile }) => {
       <NavigationItem exact link="/user">
         Home
       </NavigationItem>
-      <NavigationItem exact link="/user/book">
+      {/* <NavigationItem exact link="/user/book">
         Books
-      </NavigationItem>
+      </NavigationItem> */}
       <Badge count={count}>
         <NavigationItem exact link="/user/cart">
           Cart

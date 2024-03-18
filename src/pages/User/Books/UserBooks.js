@@ -25,7 +25,6 @@ const UserBook = () => {
     <div>
       <Hero heading="Books" description="Check out new Books" />
       <div className="flex flex-row flex-wrap justify-center 	p-8">
-        {console.log(bookData)}
         <ForEach
           of={bookData}
           render={(book, index) => <BookCard key={index} order={book} />}

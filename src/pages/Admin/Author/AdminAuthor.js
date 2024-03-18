@@ -1,4 +1,15 @@
-import { Button, Flex, Form, Input, Modal, Popconfirm, Table, Tooltip, Typography, message } from 'antd';
+import {
+  Button,
+  Flex,
+  Form,
+  Input,
+  Modal,
+  Popconfirm,
+  Table,
+  Tooltip,
+  Typography,
+  message,
+} from 'antd';
 import Hero from '../../../components/hero/Hero';
 import API from '../../../services/apiAxios';
 import React, { useEffect, useState } from 'react';
@@ -28,11 +39,13 @@ const AdminAuthor = () => {
       message.destroy();
       message.success(error);
     }
-  }
+  };
 
   const fetchAuthors = async () => {
     try {
-      const response = await API.get(`api/v1/author?limit=${pageSize}&page=${currentPage}`);
+      const response = await API.get(
+        `api/v1/author?limit=${pageSize}&page=${currentPage}`
+      );
       setAuthorData(response?.data?.data?.createdAuthor);
       setCount(response?.data?.data?.count);
     } catch (error) {
@@ -42,8 +55,13 @@ const AdminAuthor = () => {
   };
 
   const deleteAuthor = async (id) => {
-    await API.delete(`api/v1/author/${id}`).then(() => fetchAuthors());
-  }
+    try {
+      await API.delete(`api/v1/author/${id}`).then(() => fetchAuthors());
+    } catch (error) {
+      message.destroy();
+      message.error(error?.response?.data?.message);
+    }
+  };
 
   useEffect(() => {
     fetchAuthors();
@@ -56,7 +74,7 @@ const AdminAuthor = () => {
       name: row.name,
       image_url: row.image,
       created_at: dayjs(row.created_at).format('DD/MM/YYYY (HH:MM)'),
-    }
+    };
   });
 
   const columns = [
@@ -70,10 +88,10 @@ const AdminAuthor = () => {
       render: (_, render) => (
         <CustomAvatar
           size="default"
-          style={{ cursor: "pointer" }}
+          style={{ cursor: 'pointer' }}
           name={render.name}
         />
-      )
+      ),
     },
     {
       title: 'Name',
@@ -96,13 +114,13 @@ const AdminAuthor = () => {
             okText="Yes"
             cancelText="No"
           >
-            <Tooltip title="Delete" placement='bottom'>
+            <Tooltip title="Delete" placement="bottom">
               <Button danger icon={<DeleteOutlined />} size={'small'} />
             </Tooltip>
           </Popconfirm>
         </Flex>
       ),
-    }
+    },
   ];
 
   const formItemLayout = {
@@ -127,7 +145,7 @@ const AdminAuthor = () => {
   return (
     <div>
       <Hero heading="Authors" description="These are our Authors" />
-      <Flex justify='flex-end' className='mt-4 mr-4'>
+      <Flex justify="flex-end" className="mt-4 mr-4">
         <Button
           type="primary"
           icon={<PlusCircleOutlined />}
@@ -136,7 +154,7 @@ const AdminAuthor = () => {
           Add Author
         </Button>
       </Flex>
-      <div className='p-5'>
+      <div className="p-5">
         <Table
           dataSource={data}
           columns={columns}
@@ -146,11 +164,12 @@ const AdminAuthor = () => {
             pageSize: pageSize,
             pageSizeOptions: [2, 5, 10, 20, 100],
             onChange: (page, newPageSize) => {
-              setCurrentPage(page)
-              setPageSize(newPageSize)
+              setCurrentPage(page);
+              setPageSize(newPageSize);
             },
             showTotal: (total) => (
-              <Typography.Title level={5}>Total : {total}</Typography.Title>),
+              <Typography.Title level={5}>Total : {total}</Typography.Title>
+            ),
           }}
         />
       </div>
@@ -174,7 +193,7 @@ const AdminAuthor = () => {
             rules={[
               {
                 required: true,
-                message: "Please enter name",
+                message: 'Please enter name',
               },
             ]}
           >
@@ -186,7 +205,7 @@ const AdminAuthor = () => {
             rules={[
               {
                 required: true,
-                message: "Please enter image url",
+                message: 'Please enter image url',
               },
             ]}
           >
@@ -198,7 +217,7 @@ const AdminAuthor = () => {
             rules={[
               {
                 required: true,
-                message: "Please enter description",
+                message: 'Please enter description',
               },
             ]}
           >

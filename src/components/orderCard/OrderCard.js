@@ -73,7 +73,6 @@ const OrderCard = () => {
       title: 'View Book Details',
       dataIndex: 'bookDetails',
       render: (text, raw) => {
-        console.log('text', raw?.bookdetails);
         return (
           <div>
             <Button
@@ -137,7 +136,6 @@ const OrderCard = () => {
 export default OrderCard;
 
 const DetailModal = ({ isModalOpen, setIsModalOpen, modalData }) => {
-  console.log('bsdk', modalData);
   return (
     <Modal
       title="Books Detals"
